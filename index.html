@@ -21,15 +21,6 @@
       </a-assets>
 
       <!-- マーカーの.pattファイルを読み込む -->
-	           <!-- マーカーが検出されたときに表示されるボタン -->
-        <a-entity
-          geometry="primitive: plane; width: 1; height: 0.5"
-          material="color: #333; opacity: 0.8"
-          position="0 0.2 0"
-          text="value: 確認; align: center; color: white; width: 4"
-          visible="false"
-          id="confirmationButton"
-        ></a-entity>
       <a-marker type="pattern" url="hiro.patt">
         <!-- 3Dモデルを呼び出す -->
         <a-entity gltf-model="#tiger"></a-entity>
@@ -38,31 +29,5 @@
       <!-- カメラを追加 -->
       <a-entity camera></a-entity>
     </a-scene>
-        <script>
-      // マーカー検出時の処理
-      const marker = document.querySelector("a-marker");
-      const confirmationButton = document.querySelector("#confirmationButton");
-      const tigerModel = document.querySelector("#tigerModel");
-
-      marker.addEventListener("markerFound", () => {
-        // マーカーが検出されたときにボタンを表示
-        confirmationButton.setAttribute("visible", "true");
-
-        // ボタンがクリックされたときの処理
-        confirmationButton.addEventListener("click", () => {
-          // モデルを表示
-          tigerModel.setAttribute("visible", "true");
-        });
-      });
-
-      // マーカーが失われたときの処理
-      marker.addEventListener("markerLost", () => {
-        // ボタンを非表示
-        confirmationButton.setAttribute("visible", "false");
-
-        // モデルを非表示
-        tigerModel.setAttribute("visible", "false");
-      });
-    </script>
   </body>
 </html>
