@@ -1,33 +1,28 @@
-<!DOCTYPE html>
-<html lang="ja">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- A-Frame を読み込む -->
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <!-- AR.js を読み込む -->
+    <!-- A-Frameを読み込む -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <!-- AR.jsを読み込む -->
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <title>任意のページタイトル</title>
   </head>
   <body style="margin: 0; overflow: hidden">
-	  
-    <!-- A-FrameにAR.jsを紐づけ、VRボタン非表示、深度バッファ追加 -->
-    <a-scene embedded arjs vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
-	    
-      <!-- 3DCGモデルを読み込む -->
+    <!-- シーンの作成、VRモードのUI非表示 -->
+    <a-scene embedded arjs vr-mode-ui="enabled: false">
       <a-assets>
-        <a-asset-item id="tiger" src="tiger.glb"></a-asset-item>
+        <!-- 3Dモデルを読み込む -->
+        <a-asset-item id="chaei" src="model1.glb" scale="1 1 1"></a-asset-item>
       </a-assets>
-
-      <!-- マーカーの.pattファイルを読み込む -->
+      <!-- マーカーを設定する -->
       <a-marker type="pattern" url="hiro.patt">
         <!-- 3Dモデルを呼び出す -->
-        <a-entity gltf-model="#tiger"></a-entity>
+        <a-entity gltf-model="#chaei" rotation="-90 0 0"></a-entity>
       </a-marker>
-
       <!-- カメラを追加 -->
       <a-entity camera></a-entity>
     </a-scene>
   </body>
+  <script>
+      //glTFの表示が暗くなる問題に対処
+      document.querySelector("a-scene").renderer.gammaOutput=true;
+  </script>
 </html>
