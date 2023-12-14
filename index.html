@@ -1,33 +1,90 @@
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- A-Frame を読み込む -->
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <!-- AR.js を読み込む -->
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <title>任意のページタイトル</title>
-  </head>
-  <body style="margin: 0; overflow: hidden">
-	  
-    <!-- A-FrameにAR.jsを紐づけ、VRボタン非表示、深度バッファ追加 -->
-    <a-scene embedded arjs vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
-	    
-      <!-- 3DCGモデルを読み込む -->
-      <a-assets>
-        <a-asset-item id="tiger" src="./asset/tiger.glb"></a-asset-item>
-      </a-assets>
+<html>
+<head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 
-      <!-- マーカーの.pattファイルを読み込む -->
-      <a-marker type="pattern" url="hiro.patt">
-        <!-- 3Dモデルを呼び出す -->
-        <a-entity gltf-model="#tiger"></a-entity>
-      </a-marker>
-
-      <!-- カメラを追加 -->
-      <a-entity camera></a-entity>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.3.3/aframe/build/aframe-ar.js"></script>
+</head>
+<body>
+    <a-scene embedded arjs="sourceType: webcam;">
+        <!-- マーカー1 -->
+        <a-marker id="marker1" preset="custom" type="pattern" url="path/to/marker1.patt">
+            <!-- 3Dモデル1の表示 -->
+            <a-entity id="model1" gltf-model="url(path/to/model1.gltf)" scale="0.1 0.1 0.1" visible="false"></a-entity>
+        </a-marker>
+        <!-- マーカー2 -->
+        <a-marker id="marker2" preset="custom" type="pattern" url="path/to/marker2.patt">
+            <!-- 3Dモデル2の表示 -->
+            <a-entity id="model2" gltf-model="url(path/to/model2.gltf)" scale="0.1 0.1 0.1" visible="false"></a-entity>
+        </a-marker>
+        <!-- 同時に2つのマーカーが検出された場合に表示するモデル -->
+        <a-entity id="model3" gltf-model="url(path/to/model3.gltf)" scale="0.1 0.1 0.1" visible="false"></a-entity>
     </a-scene>
-  </body>
+    <script>
+        AFRAME.registerComponent('ar-marker-controller', {
+            init: function () {
+
+                var marker1 = document.querySelector("#marker1");
+
+                var marker2 = document.querySelector("#marker2");
+
+                var model1 = document.querySelector("#model1");
+
+                var model2 = document.querySelector("#model2");
+
+                var model3 = document.querySelector("#model3");
+
+
+
+                marker1.addEventListener('markerFound', function () {
+
+                    if (marker2.object3D.visible) {
+
+                        model3.setAttribute('visible', 'true');
+
+                    } else {
+
+                        model1.setAttribute('visible', 'true');
+
+                    }
+
+                });
+
+                marker1.addEventListener('markerLost', function () {
+
+                    if (!marker2.object3D.visible) {
+
+                        model1.setAttribute('visible', 'false');
+
+                    }
+
+                });
+
+
+
+                marker2.addEventListener('markerFound', function () {
+
+                    if (marker1.object3D.visible) {
+
+                        model3.setAttribute('visible', 'true');
+
+                    } else {
+
+                        model2.setAttribute('visible', 'true');
+
+                    }
+
+                });
+
+                marker2.addEventListener('markerLost', function () {
+
+                    if (!marker1.object3D.visible) {
+			    
+                        model2.setAttribute('visible', 'false');
+                    }
+                });
+            }
+        });
+    </script>
+    <a-entity ar-marker-controller></a-entity>
+</body>
 </html>
