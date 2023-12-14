@@ -21,6 +21,15 @@
       </a-assets>
 
       <!-- マーカーの.pattファイルを読み込む -->
+	           <!-- マーカーが検出されたときに表示されるボタン -->
+        <a-entity
+          geometry="primitive: plane; width: 1; height: 0.5"
+          material="color: #333; opacity: 0.8"
+          position="0 0.2 0"
+          text="value: 確認; align: center; color: white; width: 4"
+          visible="false"
+          id="confirmationButton"
+        ></a-entity>
       <a-marker type="pattern" url="hiro.patt">
         <!-- 3Dモデルを呼び出す -->
         <a-entity gltf-model="#tiger"></a-entity>
