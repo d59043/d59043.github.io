@@ -1,121 +1,59 @@
 <!DOCTYPE html>
-
-<html>
-
-<head>
-  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></scriot>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-
-  <meta charset="UTF-8">
-
-  <title>WEBAR Confirmation with Trench Image</title>
-
-  <style>
-
-    /* スタイルシート */
-
-    #confirmation-box {
-
-      background-color: white;
-
-      padding: 20px;
-
-      border-radius: 5px;
-
-      text-align: center;
-
-    }
-
-  </style>
-
-</head>
-
-<body>
-  <!-- A-FrameにAR.jsを紐づけ、VRボタン非表示、深度バッファ追加 -->
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- A-Frame を読み込む -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <!-- AR.js を読み込む -->
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <title>任意のページタイトル</title>
+  </head>
+  <body style="margin: 0; overflow: hidden">
+	  
+    <!-- A-FrameにAR.jsを紐づけ、VRボタン非表示、深度バッファ追加 -->
     <a-scene embedded arjs vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
+	    
+      <!-- 3DCGモデルを読み込む -->
+      <a-assets>
+        <a-asset-item id="tiger" src="./asset/tiger.glb"></a-asset-item>
+      </a-assets>
 
-  <!-- AR.js マーカーの設定 -->
+      <!-- マーカーの.pattファイルを読み込む -->
+      <a-marker type="pattern" url="hiro.patt">
+        <!-- 3Dモデルを呼び出す -->
+        <a-entity gltf-model="#tiger"></a-entity>
+      </a-marker>
 
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      <!-- カメラを追加 -->
+      <a-entity camera></a-entity>
+    </a-scene>
+        <script>
+      // マーカー検出時の処理
+      const marker = document.querySelector("a-marker");
+      const confirmationButton = document.querySelector("#confirmationButton");
+      const tigerModel = document.querySelector("#tigerModel");
 
-    <a-marker preset="hiro">
+      marker.addEventListener("markerFound", () => {
+        // マーカーが検出されたときにボタンを表示
+        confirmationButton.setAttribute("visible", "true");
 
-      <!-- マーカーが検出されたら表示されるオーバーレイ -->
-
-      <a-entity id="confirmation-overlay">
-
-        <div id="confirmation-box">
-
-          <h2>確認してください</h2>
-
-          <button onclick="showTrenchImage()">確認</button>
-
-          <img id="trench-image" src="model1.glb" alt="掩体壕の画像" style="display: none;">
-
-        </div>
-
-      </a-entity>
-
-    </a-marker>
-
-    <a-entity camera></a-entity>
-
-  </a-scene>
-
-
-
-  <script>
-
-    // マーカーが検出されたら確認画面を表示する処理
-
-    AFRAME.registerComponent('markerhandler', {
-
-      init: function() {
-
-        var marker = this.el;
-
-
-
-        marker.addEventListener('markerFound', function() {
-
-          // マーカーが検出されたらオーバーレイを表示
-
-          var overlay = document.getElementById('confirmation-overlay');
-
-          overlay.style.display = 'flex';
-
+        // ボタンがクリックされたときの処理
+        confirmationButton.addEventListener("click", () => {
+          // モデルを表示
+          tigerModel.setAttribute("visible", "true");
         });
+      });
 
+      // マーカーが失われたときの処理
+      marker.addEventListener("markerLost", () => {
+        // ボタンを非表示
+        confirmationButton.setAttribute("visible", "false");
 
-
-        marker.addEventListener('markerLost', function() {
-
-          // マーカーが見失われたらオーバーレイを非表示
-
-          var overlay = document.getElementById('confirmation-overlay');
-
-          overlay.style.display = 'none';
-
-        });
-
-      }
-
-    });
-
-
-
-    // 確認ボタンがクリックされたら掩体壕の画像を表示する処理
-
-    function showTrenchImage() {
-
-      var trenchImage = document.getElementById('trench-image');
-
-      trenchImage.style.display = 'block';
-
-    }
-
-  </script>
-
-</body>
-
+        // モデルを非表示
+        tigerModel.setAttribute("visible", "false");
+      });
+    </script>
+  </body>
 </html>
