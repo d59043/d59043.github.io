@@ -1,92 +1,119 @@
+<!DOCTYPE html>
+
 <html>
+
 <head>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></scriot>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.3.3/aframe/build/aframe-ar.js"></script>
+  <meta charset="UTF-8">
+
+  <title>WEBAR Confirmation with Trench Image</title>
+
+  <style>
+
+    /* スタイルシート */
+
+    #confirmation-box {
+
+      background-color: white;
+
+      padding: 20px;
+
+      border-radius: 5px;
+
+      text-align: center;
+
+    }
+
+  </style>
+
 </head>
+
 <body>
-    <a-scene embedded arjs="sourceType: webcam;">
-        <!-- マーカー1 -->
-        <a-marker id="marker1" preset="custom" type="pattern" url="path/to/marker1.patt">
-            <!-- 3Dモデル1の表示 -->
-            <a-entity id="model1" gltf-model="url(path/to/model1.gltf)" scale="0.1 0.1 0.1" visible="false"></a-entity>
-        </a-marker>
-        <!-- マーカー2 -->
-        <a-marker id="marker2" preset="custom" type="pattern" url="path/to/marker2.patt">
-            <!-- 3Dモデル2の表示 -->
-            <a-entity id="model2" gltf-model="url(path/to/model2.gltf)" scale="0.1 0.1 0.1" visible="false"></a-entity>
-        </a-marker>
-        <!-- 同時に2つのマーカーが検出された場合に表示するモデル -->
-        <a-entity id="model3" gltf-model="url(path/to/model3.gltf)" scale="0.1 0.1 0.1" visible="false"></a-entity>
-    </a-scene>
-    <script>
-        AFRAME.registerComponent('ar-marker-controller', {
-            init: function () {
 
-                var marker1 = document.querySelector("#marker1");
+  <!-- AR.js マーカーの設定 -->
 
-                var marker2 = document.querySelector("#marker2");
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
 
-                var model1 = document.querySelector("#model1");
+    <a-marker preset="hiro">
 
-                var model2 = document.querySelector("#model2");
+      <!-- マーカーが検出されたら表示されるオーバーレイ -->
 
-                var model3 = document.querySelector("#model3");
+      <a-entity id="confirmation-overlay">
 
+        <div id="confirmation-box">
 
+          <h2>確認してください</h2>
 
-                marker1.addEventListener('markerFound', function () {
+          <button onclick="showTrenchImage()">確認</button>
 
-                    if (marker2.object3D.visible) {
+          <img id="trench-image" src="trench_image.jpg" alt="掩体壕の画像" style="display: none;">
 
-                        model3.setAttribute('visible', 'true');
+        </div>
 
-                    } else {
+      </a-entity>
 
-                        model1.setAttribute('visible', 'true');
+    </a-marker>
 
-                    }
+    <a-entity camera></a-entity>
 
-                });
-
-                marker1.addEventListener('markerLost', function () {
-
-                    if (!marker2.object3D.visible) {
-
-                        model1.setAttribute('visible', 'false');
-
-                    }
-
-                });
+  </a-scene>
 
 
 
-                marker2.addEventListener('markerFound', function () {
+  <script>
 
-                    if (marker1.object3D.visible) {
+    // マーカーが検出されたら確認画面を表示する処理
 
-                        model3.setAttribute('visible', 'true');
+    AFRAME.registerComponent('markerhandler', {
 
-                    } else {
+      init: function() {
 
-                        model2.setAttribute('visible', 'true');
+        var marker = this.el;
 
-                    }
 
-                });
 
-                marker2.addEventListener('markerLost', function () {
+        marker.addEventListener('markerFound', function() {
 
-                    if (!marker1.object3D.visible) {
-			    
-                        model2.setAttribute('visible', 'false');
-                    }
-                });
-            }
+          // マーカーが検出されたらオーバーレイを表示
+
+          var overlay = document.getElementById('confirmation-overlay');
+
+          overlay.style.display = 'flex';
+
         });
-    </script>
-    <a-entity ar-marker-controller></a-entity>
-	  <!-- カメラを追加 -->
-      <a-entity camera></a-entity>
+
+
+
+        marker.addEventListener('markerLost', function() {
+
+          // マーカーが見失われたらオーバーレイを非表示
+
+          var overlay = document.getElementById('confirmation-overlay');
+
+          overlay.style.display = 'none';
+
+        });
+
+      }
+
+    });
+
+
+
+    // 確認ボタンがクリックされたら掩体壕の画像を表示する処理
+
+    function showTrenchImage() {
+
+      var trenchImage = document.getElementById('trench-image');
+
+      trenchImage.style.display = 'block';
+
+    }
+
+  </script>
+
 </body>
+
 </html>
