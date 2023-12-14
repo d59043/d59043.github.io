@@ -31,6 +31,8 @@
 </head>
 
 <body>
+  <!-- A-FrameにAR.jsを紐づけ、VRボタン非表示、深度バッファ追加 -->
+    <a-scene embedded arjs vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
 
   <!-- AR.js マーカーの設定 -->
 
@@ -48,7 +50,7 @@
 
           <button onclick="showTrenchImage()">確認</button>
 
-          <img id="trench-image" src="trench_image.jpg" alt="掩体壕の画像" style="display: none;">
+          <img id="trench-image" src="model1.glb" alt="掩体壕の画像" style="display: none;">
 
         </div>
 
