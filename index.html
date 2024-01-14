@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,63 +7,38 @@
   <script src="./index.js"></script>
 </head>
 <body>
-  <a-scene embedded vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
-    <a-assets>
-      <a-asset-item id="a-santa_body" src="./model/santa_body.glb"></a-asset-item>
-      <a-asset-item id="a-santa_boushi" src="./model/santa_boushi.glb"></a-asset-item>
-      <a-asset-item id="a-santa_huku" src="./model/santa_huku.glb"></a-asset-item>
-      <a-asset-item id="a-tonakai" src="./model/tonakai.glb"></a-asset-item>
-      <img id="a-message" src="./message.png">
-    </a-assets>
+<a-scene embedded vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
+  <a-assets>
+    <!-- 各3Dモデルの読み込み -->
+    <a-asset-item id="a-santa_body" src="./model/santa_body.glb"></a-asset-item>
+    <a-asset-item id="a-santa_boushi" src="./model/santa_boushi.glb"></a-asset-item>
+    <a-asset-item id="a-santa_huku" src="./model/santa_huku.glb"></a-asset-item>
+    <a-asset-item id="a-tonakai" src="./model/tonakai.glb"></a-asset-item>
+  </a-assets>
 
-    <a-marker preset="custom" type="pattern" url='./marker/santa.patt' id="m_santa">
-      <a-entity
-        gltf-model="#a-santa_body"
-        scale="0.5 0.5 0.5"
-      ></a-entity>
-      <a-entity
-        id="boushi"
-        scale="0.5 0.5 0.5"
-      ></a-entity>
-      <a-entity
-        id="huku"
-        scale="0.5 0.5 0.5"
-      ></a-entity>
-      <a-image
-        id="message"
-        src="#a-message"
-        scale="1 0.5 1"
-        position="0 2 0"
-        opacity="0"
-      ></a-image>
-    </a-marker>
+  <!-- サンタの3Dモデルを表示するためのマーカー -->
+  <a-marker preset="custom" type="pattern" url="./marker/santa.patt" id="m_santa">
+    <a-entity gltf-model="#a-santa_body" scale="0.5 0.5 0.5"></a-entity>
+   <a-entity id="boushi" scale="0.5 0.5 0.5"></a-entity>
+   <a-entity id="huku" scale="0.5 0.5 0.5"></a-entity>
+  </a-marker>
 
-    <a-marker preset="custom" type="pattern" url='./marker/boushi.patt' id="m_boushi">
-      <a-entity
-        gltf-model="#a-santa_boushi"
-        scale="0.5 0.5 0.5"
-      ></a-entity>
-    </a-marker>
+  <!-- 帽子の3Dモデルを表示するためのマーカー -->
+  <a-marker preset="custom" type="pattern" url="./marker/boushi.patt" id="m_boushi">
+    <a-entity gltf-model="#a-santa_boushi" scale="0.5 0.5 0.5"></a-entity>
+  </a-marker>
 
-    <a-marker preset="custom" type="pattern" url='./marker/huku.patt' id="m_huku">
-      <a-entity
-        gltf-model="#a-santa_huku"
-        scale="0.5 0.5 0.5"
-      ></a-entity>
-    </a-marker>
+  <!-- 服の3Dモデルを表示するためのマーカー -->
+  <a-marker preset="custom" type="pattern" url="./marker/huku.patt" id="m_huku">
+    <a-entity gltf-model="#a-santa_huku" scale="0.5 0.5 0.5"></a-entity>
+  </a-marker>
 
-    <a-marker preset="custom" type="pattern" url='./marker/tonakai.patt' id="m_tonakai">
-      <a-entity
-        gltf-model="#a-tonakai"
-        scale="0.5 0.5 0.5"
-      ></a-entity>
-      <a-entity
-        id="leash"
-        position="0 0.5 0"
-      ></a-entity>
-    </a-marker>
+  <!-- トナカイの3Dモデルを表示するためのマーカー -->
+  <a-marker preset="custom" type="pattern" url="./marker/tonakai.patt" id="m_tonakai">
+    <a-entity gltf-model="#a-tonakai" scale="0.5 0.5 0.5"></a-entity>
+  </a-marker>
 
-    <a-entity camera></a-entity>
-    <a-entity run></a-entity>
-  </a-scene>
+  <a-entity camera></a-entity>
+     <a-entity run></a-entity>
+</a-scene>
 </body>
